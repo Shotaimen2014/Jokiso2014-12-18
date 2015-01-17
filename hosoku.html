@@ -1,0 +1,27 @@
+<script>
+
+var pay = 1000;//時給
+//月ごとのカレンダーに、イベントをくっつけていく
+for(var j=1; j<=12; j++){
+	var datesOfMonth = document.querySelectorAll("#calendar" + j + " td");
+	for(var i=0; i<datesOfMonth.length; i++){
+		var changeButton = datesOfMonth[i].querySelector("button.change");//changeクラスのbutton要素を取得
+		if(changeButton){//もし、buttonがあるならば
+			changeButton.addEventListener("click",function(e){//buttonにクリックイベントを付与
+				var workedTime = e.target.parentNode.querySelector("div.time").innerHTML;//今div.timeの中に書いてある時間を取得
+				var inputted = window.prompt("クリックされました", workedTime);//今現在登録されている時間を初期値として表示
+				
+				if(inputted){//inputtedの中身が入っていれば
+					e.target.parentNode.querySelector("div.time").innerHTML = inputted//div.timeの中の時間をinputtedに変更;
+					var workOfMonth = e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll("div.time");//一ヶ月の勤務時間を全て取得
+					var sumOfWork = 0;
+					for(var k=0; k<workOfMonth.length; k++){
+						sumOfWork += Number(workOfMonth[k].innerHTML);
+					}
+					e.target.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector("thead td.income").innerHTML = sumOfWork * pay;
+				}
+			});
+		}
+	}
+}
+</script>
